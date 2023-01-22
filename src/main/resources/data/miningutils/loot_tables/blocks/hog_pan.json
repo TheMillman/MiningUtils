@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "miningutils:hog_pan"
+        }
+      ],
+      "name": "hog_pan",
+      "rolls": 1.0
+    }
+  ]
+}

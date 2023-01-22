@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=north,water=false,dirty=false": {
+      "model": "miningutils:block/bucket_block",
+      "y": 180
+    },
+    "facing=south,water=false,dirty=false": {
+      "model": "miningutils:block/bucket_block"
+    },
+    "facing=west,water=false,dirty=false": {
+      "model": "miningutils:block/bucket_block",
+      "y": 90
+    },
+    "facing=east,water=false,dirty=false": {
+      "model": "miningutils:block/bucket_block",
+      "y": 270
+    },
+	"facing=north,water=true,dirty=false": {
+      "model": "miningutils:block/bucket_block_with_water",
+      "y": 180
+    },
+    "facing=south,water=true,dirty=false": {
+      "model": "miningutils:block/bucket_block_with_water"
+    },
+    "facing=west,water=true,dirty=false": {
+      "model": "miningutils:block/bucket_block_with_water",
+      "y": 90
+    },
+    "facing=east,water=true,dirty=false": {
+      "model": "miningutils:block/bucket_block_with_water",
+      "y": 270
+    },
+	"facing=north,water=false,dirty=true": {
+      "model": "miningutils:block/bucket_block_with_dirty_water",
+      "y": 180
+    },
+    "facing=south,water=false,dirty=true": {
+      "model": "miningutils:block/bucket_block_with_dirty_water"
+    },
+    "facing=west,water=false,dirty=true": {
+      "model": "miningutils:block/bucket_block_with_dirty_water",
+      "y": 90
+    },
+    "facing=east,water=false,dirty=true": {
+      "model": "miningutils:block/bucket_block_with_dirty_water",
+      "y": 270
+    },
+	"facing=north,water=true,dirty=true": {
+      "model": "miningutils:block/bucket_block_with_water",
+      "y": 180
+    },
+    "facing=south,water=true,dirty=true": {
+      "model": "miningutils:block/bucket_block_with_water"
+    },
+    "facing=west,water=true,dirty=true": {
+      "model": "miningutils:block/bucket_block_with_water",
+      "y": 90
+    },
+    "facing=east,water=true,dirty=true": {
+      "model": "miningutils:block/bucket_block_with_water",
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=north,water=false": {
+      "model": "miningutils:block/wave_table",
+      "y": 180
+    },
+    "facing=south,water=false": {
+      "model": "miningutils:block/wave_table"
+    },
+    "facing=west,water=false": {
+      "model": "miningutils:block/wave_table",
+      "y": 90
+    },
+    "facing=east,water=false": {
+      "model": "miningutils:block/wave_table",
+      "y": 270
+    },
+	"facing=north,water=true": {
+      "model": "miningutils:block/wave_table_water",
+      "y": 180
+    },
+    "facing=south,water=true": {
+      "model": "miningutils:block/wave_table_water"
+    },
+    "facing=west,water=true": {
+      "model": "miningutils:block/wave_table_water",
+      "y": 90
+    },
+    "facing=east,water=true": {
+      "model": "miningutils:block/wave_table_water",
+      "y": 270
+    }
+  }
+}

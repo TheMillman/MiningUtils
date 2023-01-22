@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "miningutils:block/hog_pan",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "miningutils:block/hog_pan"
+    },
+    "facing=west": {
+      "model": "miningutils:block/hog_pan",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "miningutils:block/hog_pan",
+      "y": 270
+    }
+  }
+}

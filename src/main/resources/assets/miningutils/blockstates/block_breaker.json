@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "miningutils:block/block_breaker",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "miningutils:block/block_breaker"
+    },
+    "facing=west": {
+      "model": "miningutils:block/block_breaker",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "miningutils:block/block_breaker",
+      "y": 270
+    }
+  }
+}

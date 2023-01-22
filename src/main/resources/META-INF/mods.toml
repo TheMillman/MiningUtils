@@ -1,0 +1,43 @@
+modLoader="javafml"
+loaderVersion="[44,)"
+# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+license="All rights reserved"
+
+#issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
+
+[[mods]]
+modId="miningutils"
+version="${file.jarVersion}"
+displayName="Mining Utils"
+
+#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+
+logoFile="examplemod.png" #optional
+authors="The_Millman" #optional
+description='''
+This mod adds different blocks and items for a easy way to farming resources in Minecraft.
+'''
+
+[[dependencies.miningutils]]
+    modId="forge"
+    mandatory=true
+    versionRange="[44,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.miningutils]] 
+    modId="themillmanlib" 
+    mandatory=true 
+    versionRange="[1.19.3-0.1.12,1.19.3-0.1.13)"
+    ordering="NONE"
+    side="BOTH"   
+    
+[[dependencies.miningutils]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.19.3,1.20)"
+    ordering="NONE"
+    side="BOTH"

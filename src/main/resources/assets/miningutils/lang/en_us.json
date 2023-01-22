@@ -1,0 +1,16 @@
+{
+	"block.miningutils.vertical_miner": "Vertical Miner",
+	"block.miningutils.block_breaker": "Block Breaker",
+	"block.miningutils.block_placer": "Block Placer",
+	"block.miningutils.hog_pan": "Hog Pan",
+	"block.miningutils.bucket_block": "Bucket Block",
+	"block.miningutils.wave_table": "Wave Table",
+	"item.miningutils.hog_pan_mat": "Hog Pan Mat",
+	"item.miningutils.dirty_water_bucket": "Dirty Water Bucket",
+	"screen.miningutils.vertical_miner": "Vertical Miner",
+	"screen.miningutils.block_breaker": "Block Breaker",
+	"screen.miningutils.block_placer": "Block Placer",
+	"screen.miningutils.hog_pan": "Hog Pan",
+	"screen.miningutils.wave_table": "Wave Table",
+	"itemGroup.mining_utils_tab": "Mining Utils"
+}

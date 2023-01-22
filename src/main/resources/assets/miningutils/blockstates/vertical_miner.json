@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "miningutils:block/vertical_miner",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "miningutils:block/vertical_miner"
+    },
+    "facing=west": {
+      "model": "miningutils:block/vertical_miner",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "miningutils:block/vertical_miner",
+      "y": 270
+    }
+  }
+}

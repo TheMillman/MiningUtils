@@ -1,0 +1,10 @@
+{
+  "values": [
+    "miningutils:vertical_miner",
+    "miningutils:block_breaker",
+    "miningutils:block_placer",
+    "miningutils:hog_pan",
+    "miningutils:hog_pan",
+    "miningutils:wave_table"
+  ]
+}
