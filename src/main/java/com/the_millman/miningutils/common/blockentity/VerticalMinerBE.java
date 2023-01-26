@@ -2,7 +2,6 @@ package com.the_millman.miningutils.common.blockentity;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.the_millman.miningutils.MiningUtils;
 import com.the_millman.miningutils.common.blocks.BlockBreakerBlock;
 import com.the_millman.miningutils.common.blocks.VerticalMinerBlock;
 import com.the_millman.miningutils.core.init.BlockEntityInit;
@@ -91,13 +90,12 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 			init();
 		}
 
-		energyDebug(MiningUtils.DEBUG);
-
+		energyStorage.addEnergy(100);
 		if (!level.isClientSide()) {
 			if (!getStop()) {
 				if (hasPowerToWork(energyStorage, MiningConfig.VERTICAL_MINER_USEPERTICK.get())) {
 					tick++;
-					if (tick == MiningConfig.VERTICAL_MINER_TICK.get()) {
+					if (tick == 2) {
 						tick = 0;
 						redstoneUpgrade();
 						if (canWork()) {
@@ -115,7 +113,7 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 									this.pZ = 0;
 									this.pY--;
 									int limitY = (this.y + this.pY);
-									if (limitY <= (-64)) {
+									if (limitY <= (level.dimensionType().minY())) {
 										setStop(true);
 										this.pY = 0;
 									}
@@ -393,9 +391,4 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
         }
     	return super.getCapability(cap, side);
     }
-
-	@Override
-	protected <T> LazyOptional<T> callCapability(Capability<T> arg0, Direction arg1) {
-		return null;
-	}
 }

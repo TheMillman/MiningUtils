@@ -9,6 +9,7 @@ import com.the_millman.miningutils.client.screens.WaveTableScreen;
 import com.the_millman.miningutils.core.init.BlockInit;
 import com.the_millman.miningutils.core.init.ContainerInit;
 import com.the_millman.miningutils.core.init.ItemInit;
+import com.the_millman.themillmanlib.core.init.LibItemInit;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.BiomeColors;
@@ -63,6 +64,11 @@ public class ClientEvents {
 							// Items
 							output.accept(ItemInit.HOG_PAN_MAT.get());
 							output.accept(ItemInit.DIRTY_WATER_BUCKET.get());
+							output.accept(LibItemInit.PLASTIC.get());
+							output.accept(LibItemInit.IRON_UPGRADE.get());
+							output.accept(LibItemInit.GOLD_UPGRADE.get());
+							output.accept(LibItemInit.DIAMOND_UPGRADE.get());
+							output.accept(LibItemInit.REDSTONE_UPGRADE.get());
 
 						});
 			});

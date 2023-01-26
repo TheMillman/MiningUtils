@@ -1,5 +1,7 @@
 package com.the_millman.miningutils.common.blockentity;
 
+import java.util.Random;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.the_millman.miningutils.common.items.HogPanMatItem;
@@ -53,31 +55,40 @@ public class HogPanBE extends ItemFluidBlockEntity {
 		if (getStackInSlot(itemStorage, 1).getCount() < 16) {
 			transferItemFluidToFluidTank(itemStorage, fluidStorage, 0, 1);
 		}
-
-		if (!level.isClientSide()) {
-			if (getStackInSlot(itemStorage, 2).is(ModItemTags.SIFTABLE_BLOCKS)
-					&& fluidStorage.getFluidAmount() >= MiningConfig.HOG_PAN_WATER_CONSUME.get()
-					&& getStackInSlot(itemStorage, 3).getItem() instanceof HogPanMatItem && this.work) {
-				tick++;
-				if (tick >= MiningConfig.HOG_PAN_TICK.get()) {
-					tick = 0;
-					ItemStack panItem = getPanItemStack();
-					if (panItem.hasTag()) {
-						if (panItem.getTag().getInt("miningutils_content") < 100) {
-							this.panContent = panItem.getTag().getInt("miningutils_content");
-							addContentToPanItem(panContent+checkInput());
-							consumeStack(itemStorage, 2, 1);
-							drain(fluidStorage, MiningConfig.HOG_PAN_WATER_CONSUME.get(), FluidAction.EXECUTE);
-							if (panContent >= 100) {
-								this.work = false;
-							} else
-								this.work = true;
+		
+		if(getStackInSlot(itemStorage, 2).is(ModItemTags.SIFTABLE_BLOCKS)) {
+			if(fluidStorage.getFluidAmount() >= MiningConfig.HOG_PAN_WATER_CONSUME.get()) {
+				if(getStackInSlot(itemStorage, 3).getItem() instanceof HogPanMatItem) {
+					this.work = checkWork();
+					if(this.work) {
+						tick++;
+						if(this.tick >= getMaxProgress()) {
+							tick = 0;
+							if(!level.isClientSide()) {
+								ItemStack panItem = getPanItemStack();
+								if (panItem.hasTag()) {
+									if (panItem.getTag().getInt("miningutils_content") < 100) {
+										this.panContent = panItem.getTag().getInt("miningutils_content");
+										if(panContent + checkInput() <= 100) {
+											addContentToPanItem(panContent + checkInput());
+											consumeStack(itemStorage, 2, 1);
+											drain(fluidStorage, MiningConfig.HOG_PAN_WATER_CONSUME.get(), FluidAction.EXECUTE);
+											this.work = true;
+										} else if(panContent + checkInput() >= 100) {
+											addContentToPanItem(100);
+											this.work = false;
+										}
+									}
+								} else if (panItem.hasTag() == false) {
+									addContentToPanItem(0);
+								}
+							}
 						}
-					} if(panItem.hasTag() == false) {
-						addContentToPanItem(0);
-					}
+					} 
 				}
-			}
+			} 
+		} if (getStackInSlot(itemStorage, 2).isEmpty() || getStackInSlot(itemStorage, 3).isEmpty()) {
+			this.tick = 0;
 		}
 	}
 	
@@ -95,14 +106,29 @@ public class HogPanBE extends ItemFluidBlockEntity {
 		if(panItem.getItem() instanceof HogPanMatItem) {
 			return panItem;
 		}
-		return null;
+		return ItemStack.EMPTY;
 	}
 	
 	private int checkInput() {
 		if(getStackInSlot(itemStorage, 2).is(Items.MUD)) {
-			return 5;
+			return new Random().nextInt(3, 7);
 		}
-		return 1;
+		return new Random().nextInt(1, 4);
+	}
+	
+	private boolean checkWork() {
+		ItemStack panItem = getPanItemStack();
+		if (panItem.hasTag()) {
+			if (panItem.getTag().getInt("miningutils_content") < 100) {
+				return true;
+			}
+			else 
+				return false;
+		} else if (panItem.hasTag() == false) {
+			addContentToPanItem(0);
+			return true;
+		}
+		return false;
 	}
 	
 	public void drops() {
@@ -113,6 +139,14 @@ public class HogPanBE extends ItemFluidBlockEntity {
 
         Containers.dropContents(this.level, this.worldPosition, inventory);
     }
+	
+	public int getProgress() {
+		return this.tick;
+	}
+	
+	public int getMaxProgress() {
+		return MiningConfig.HOG_PAN_TICK.get();
+	}
 	
 	@Override
 	public boolean isValidBlock(ItemStack stack) {
@@ -189,10 +223,4 @@ public class HogPanBE extends ItemFluidBlockEntity {
         }
     	return super.getCapability(cap, side);
     }
-	
-
-	@Override
-	protected <T> LazyOptional<T> callCapability(Capability<T> arg0, Direction arg1) {
-		return null;
-	}
 }

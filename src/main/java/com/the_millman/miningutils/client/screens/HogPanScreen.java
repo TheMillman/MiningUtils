@@ -47,5 +47,14 @@ public class HogPanScreen extends ItemEnergyFluidScreen<HogPanContainer> {
 		int relY = (this.height - this.imageHeight) / 2;
 		this.blit(pPoseStack, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
 		renderer.render(pPoseStack, relX + 9, relY + 18, menu.getFluidStack());
+		renderProgress(pPoseStack);
+	}
+	
+	private void renderProgress(PoseStack pPoseStack) {
+		RenderSystem.setShaderTexture(0, GUI);
+		int gL = this.getGuiLeft();
+		int gT = this.getGuiTop();
+		int progress = (int)(23*menu.getProgress()/(float)menu.getMaxProgress());
+		this.blit(pPoseStack, gL + 85, gT + 36, 176, 0, progress+1, 16);
 	}
 }

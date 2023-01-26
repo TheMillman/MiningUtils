@@ -16,8 +16,6 @@ import com.the_millman.themillmanlib.core.util.ModItemHandlerHelp;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.Containers;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -27,10 +25,12 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 
@@ -51,8 +51,8 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 		if (!initialized)
 			init();
 
-		if (getStackInSlot(itemStorage, 4).getCount() < 16) {
-			transferItemFluidToFluidTank(itemStorage, fluidStorage, 3, 4);
+		if (getStackInSlot(upgradeItemStorage, 2).getCount() < 16) {
+			transferItemFluidToFluidTank(itemStorage, fluidStorage, 1, 2);
 		}
 
 		if (hasPowerToWork(energyStorage, MiningConfig.WAVE_TABLE_USEPERTICK.get()) && 
@@ -71,15 +71,26 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 				this.tick = 0;
 			}
 		}
+		
+//		energyStorage.addEnergy(100);
+	}
+	
+	@Override
+	public void fillTankWithFluid(ItemStackHandler itemStorage, FluidTank fluidStorage, FluidStack stack, ItemStack container, int slotI, int slotO) {
+		fluidStorage.fill(stack, IFluidHandler.FluidAction.EXECUTE);
+
+        itemStorage.extractItem(slotI, 1, false);
+        upgradeItemStorage.insertItem(slotO, container, false);
 	}
 	
 	private void work() {
 		ItemStack gold = new ItemStack(Items.GOLD_NUGGET, random());
-		ItemStack goldStack = ModItemHandlerHelp.insertItemStacked(itemStorage, gold, 1, 2, false);
-		ItemStack bucketStack = ModItemHandlerHelp.insertItemStacked(itemStorage, Items.BUCKET.getDefaultInstance(), 2, 3, false);
+		ItemStack goldStack = ModItemHandlerHelp.insertItemStacked(upgradeItemStorage, gold, 0, 1, false);
+		ItemStack bucketStack = ModItemHandlerHelp.insertItemStacked(upgradeItemStorage, Items.BUCKET.getDefaultInstance(), 1, 2, false);
 		consumeStack(itemStorage, 0, 1);
 		consumeEnergy(energyStorage, MiningConfig.WAVE_TABLE_USEPERTICK.get());
 		drain(fluidStorage, MiningConfig.WAVE_TABLE_FLUID_USEPERTICK.get(), FluidAction.EXECUTE);
+		setChanged();
 		if (!goldStack.isEmpty()) {
 			BlockUtils.spawnItemStack(goldStack, this.level, getBlockPos().above());
 		}
@@ -106,12 +117,7 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 	}
 	
 	public void drops() {
-        SimpleContainer inventory = new SimpleContainer(itemStorage.getSlots());
-        for (int i = 0; i < itemStorage.getSlots(); i++) {
-            inventory.setItem(i, itemStorage.getStackInSlot(i));
-        }
-
-        Containers.dropContents(this.level, this.worldPosition, inventory);
+        drops(level, worldPosition, itemStorage);
     }
 	
 	public void setFluid(FluidStack fluidStack) {
@@ -125,10 +131,11 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 
 	@Override
 	protected ItemStackHandler itemStorage() {
-		return new ItemStackHandler(5) {
+		return new ItemStackHandler(2) {
 			@Override
 			protected void onContentsChanged(int slot) {
 				setChanged();
+//				ModMessages.sendToClients(new ItemStackSyncS2CPacket2(this, worldPosition));
 			}
 			
 			@Override
@@ -137,12 +144,6 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 				case 0:
 					return stack.is(ItemInit.DIRTY_WATER_BUCKET.get()) ? true : false;
 				case 1:
-					return stack.is(Items.GOLD_NUGGET) ? true : false;
-				case 2:
-					return stack.is(Items.BUCKET) ? true : false;
-				case 3:
-					return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent() ? true : false;
-				case 4:
 					return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent() ? true : false;
 				default:
 					return false;
@@ -153,12 +154,41 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 	
 	@Override
 	protected ItemStackHandler upgradeItemStorage() {
-		return null;
+		return new ItemStackHandler(3) {
+			@Override
+			protected void onContentsChanged(int slot) {
+				setChanged();
+//				ModMessages.sendToClients(new ItemStackSyncS2CPacket2(this, worldPosition));
+			}
+			
+			@Override
+			public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+				switch(slot) {
+				case 0:
+					return stack.is(Items.GOLD_NUGGET) ? true : false;
+				case 1:
+					return stack.is(Items.BUCKET) ? true : false;
+				case 2:
+					return stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).isPresent() ? true : false;
+				default:
+					return false;
+				}
+			}
+		};
 	}
 	
 	@Override
 	protected IItemHandler createCombinedItemHandler() {
-		return null;
+		return new CombinedInvWrapper(itemStorage, upgradeItemStorage) {
+			@Override
+			public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+				int index = getIndexForSlot(slot);
+				if (getHandlerFromIndex(index) == upgradeItemStorage) {
+					return stack;
+				}
+				return super.insertItem(slot, stack, simulate);
+			}
+		};
 	}
 	
 	@Override
@@ -196,18 +226,20 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 	@Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
     	if(cap == ForgeCapabilities.ITEM_HANDLER) {
-//			if (side == null) {
-//            	upgradeItemHandler.cast();
-//                return combinedItemHandler.cast();
-//            } else {
+			if (side == null) {
+                return combinedItemHandler.cast();
+            } else if(side == Direction.DOWN) {
+            	return upgradeItemHandler.cast();
+            } else {
                 return itemStorageHandler.cast();
-//            }
+            }
         }
     	return super.getCapability(cap, side);
     }
-
-	@Override
-	protected <T> LazyOptional<T> callCapability(Capability<T> arg0, Direction arg1) {
-		return null;
+	
+	public void setHandler(ItemStackHandler itemStackHandler) {
+		for (int i = 0; i < itemStackHandler.getSlots(); i++) {
+            itemStorage.setStackInSlot(i, itemStackHandler.getStackInSlot(i));
+        }
 	}
 }

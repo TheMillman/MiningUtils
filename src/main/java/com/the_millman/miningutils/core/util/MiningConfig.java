@@ -86,7 +86,7 @@ public class MiningConfig {
         
         HOG_PAN_TICK = builder
         		.comment("How many ticks must pass before the vertical miner works")
-        		.defineInRange("hog_pan_tick", 10, 10, Integer.MAX_VALUE);
+        		.defineInRange("hog_pan_tick", 60, 10, Integer.MAX_VALUE);
         builder.pop();
         
         builder.comment("Wave Table settings").push("wave_table");

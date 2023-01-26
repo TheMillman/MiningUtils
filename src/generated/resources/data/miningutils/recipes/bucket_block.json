@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "p": {
+      "item": "themillmanlib:plastic"
+    }
+  },
+  "pattern": [
+    "p p",
+    " p "
+  ],
+  "result": {
+    "item": "miningutils:bucket_block"
+  }
+}

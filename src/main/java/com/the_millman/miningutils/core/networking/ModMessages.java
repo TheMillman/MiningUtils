@@ -32,6 +32,12 @@ public class ModMessages {
         	.encoder(FluidSyncS2CPacket::toBytes)
         	.consumerMainThread(FluidSyncS2CPacket::handle)
         	.add();
+        
+        net.messageBuilder(ItemStackSyncS2CPacket2.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+    		.decoder(ItemStackSyncS2CPacket2::new)
+    		.encoder(ItemStackSyncS2CPacket2::toBytes)
+    		.consumerMainThread(ItemStackSyncS2CPacket2::handle)
+    		.add();
     }
 
     public static <MSG> void sendToServer(MSG message) {

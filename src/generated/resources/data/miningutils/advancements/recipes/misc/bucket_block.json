@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "miningutils:bucket_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "plastic": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "themillmanlib:plastic"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "plastic",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "miningutils:bucket_block"
+    ]
+  }
+}

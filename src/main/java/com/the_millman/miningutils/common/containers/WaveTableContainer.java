@@ -37,9 +37,9 @@ public class WaveTableContainer extends ItemEnergyContainer {
         if (blockEntity != null) {
 			blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
 				this.addSlot(new SlotItemHandler(h, 0, 44, 36));
-				this.addSlot(new SlotItemHandler(h, 1, 98, 27));
-				this.addSlot(new SlotItemHandler(h, 2, 98, 45));
-				this.addSlot(new SlotItemHandler(h, 3, 152, 18));
+				this.addSlot(new SlotItemHandler(h, 1, 152, 18));
+				this.addSlot(new SlotItemHandler(h, 2, 98, 27));
+				this.addSlot(new SlotItemHandler(h, 3, 98, 45));
 				this.addSlot(new SlotItemHandler(h, 4, 152, 54));
 			});
         }

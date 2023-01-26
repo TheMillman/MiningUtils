@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import com.the_millman.miningutils.core.init.BlockInit;
 import com.the_millman.miningutils.core.init.ItemInit;
+import com.the_millman.themillmanlib.core.init.LibItemInit;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
@@ -11,9 +12,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
 
 public class ModRecipeProvider extends RecipeProvider {
@@ -71,6 +70,17 @@ public class ModRecipeProvider extends RecipeProvider {
         .unlockedBy("iron", InventoryChangeTrigger.TriggerInstance.hasItems(Items.IRON_INGOT))
         .save(pWriter);
 		
-		SimpleCookingRecipeBuilder.smelting(Ingredient.of(Items.SUGAR_CANE), RecipeCategory.MISC, ItemInit.HOG_PAN_MAT.get(), 250, 300);
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.HOG_PAN_MAT.get())
+        .pattern("ppp")
+        .define('p', LibItemInit.PLASTIC.get())
+        .unlockedBy("plastic", InventoryChangeTrigger.TriggerInstance.hasItems(LibItemInit.PLASTIC.get()))
+        .save(pWriter);
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, BlockInit.BUCKET_BLOCK.get())
+        .pattern("p p")
+        .pattern(" p ")
+        .define('p', LibItemInit.PLASTIC.get())
+        .unlockedBy("plastic", InventoryChangeTrigger.TriggerInstance.hasItems(LibItemInit.PLASTIC.get()))
+        .save(pWriter);
 	}
 }

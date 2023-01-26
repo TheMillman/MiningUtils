@@ -27,7 +27,6 @@ public class WaveTableScreen extends ItemEnergyFluidScreen<WaveTableContainer> {
 		initFluidRenderer(MiningConfig.WAVE_TABLE_FLUID_CAPACITY.get(), true, 13, 52);
 	}
 	
-	//TODO Spostare in lib
 	@Override
 	protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
 		int xPos = (width - imageWidth) / 2;

@@ -195,9 +195,4 @@ public class BlockPlacerBE extends ItemEnergyBlockEntity {
         }
     	return super.getCapability(cap, side);
     }
-
-	@Override
-	protected <T> LazyOptional<T> callCapability(Capability<T> arg0, Direction arg1) {
-		return null;
-	}
 }

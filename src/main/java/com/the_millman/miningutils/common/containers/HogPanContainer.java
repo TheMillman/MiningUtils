@@ -95,4 +95,12 @@ public class HogPanContainer extends ItemEnergyContainer {
 	public FluidStack getFluidStack() {
 		return this.fluidStack;
 	}
+	
+	public int getProgress() {
+		return blockEntity.getProgress();
+	}
+	
+	public int getMaxProgress() {
+		return blockEntity.getMaxProgress();
+	}
 }

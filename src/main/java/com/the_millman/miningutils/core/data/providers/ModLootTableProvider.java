@@ -26,7 +26,6 @@ public class ModLootTableProvider implements LootTableSubProvider  {
 		builder.accept(BlockInit.BLOCK_PLACER.getId(), LibLootTables.createItemEnergyTable("block_placer", BlockInit.BLOCK_PLACER.get(), BlockEntityInit.BLOCK_PLACER.get()));
 		builder.accept(BlockInit.HOG_PAN.getId(), LibLootTables.createSimpleTable("hog_pan", BlockInit.HOG_PAN.get()));
 		builder.accept(BlockInit.BUCKET_BLOCK.getId(), LibLootTables.createSimpleTable("bucket_block", BlockInit.BUCKET_BLOCK.get()));
-		builder.accept(BlockInit.BUCKET_BLOCK.getId(), LibLootTables.createSimpleTable("bucket_block", BlockInit.BUCKET_BLOCK.get()));
 		builder.accept(BlockInit.WAVE_TABLE.getId(), LibLootTables.createSimpleTable("wave_table", BlockInit.WAVE_TABLE.get()));
 		
 	}
