@@ -1,5 +1,0 @@
-// 1.19.3	2023-01-18T21:31:57.2019006	MiningUtils Block Tags
-d8a5ac081523a6447de4c998f39c072eeefec741 data/minecraft/tags/blocks/mineable/pickaxe.json
-d8a5ac081523a6447de4c998f39c072eeefec741 data/minecraft/tags/blocks/needs_stone_tool.json
-4e37253867f9ac5c7980b6369629230a69eca6f5 data/miningutils/tags/blocks/mineable/pickaxe.json
-68d68eb61f92ee27f170843c0cf9d62fed9d29d2 data/miningutils/tags/blocks/siftable_blocks.json

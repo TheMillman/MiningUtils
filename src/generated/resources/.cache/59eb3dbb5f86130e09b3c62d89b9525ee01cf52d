@@ -1,7 +1,0 @@
-// 1.19.3	2023-01-26T17:47:08.278322	Loot Tables
-6f87a74d84c46aa8206cc7ea6f5be22159c2485c data/miningutils/loot_tables/block_breaker.json
-f6c80b029e1f2e9110ce6d73b2eeef5cb06d9080 data/miningutils/loot_tables/block_placer.json
-2fa6eed4d0e589df31ed0e84d941d2e5082a43c2 data/miningutils/loot_tables/bucket_block.json
-fd19e82b1f6752787d5c91766a7e5a70e62383e4 data/miningutils/loot_tables/hog_pan.json
-d76fbf82550e5d8e1378fc6d1f7cfc19d8ca40f8 data/miningutils/loot_tables/vertical_miner.json
-1aaf6fd3c4e7e853427a5748306a50114555be07 data/miningutils/loot_tables/wave_table.json
