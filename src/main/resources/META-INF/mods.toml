@@ -8,9 +8,7 @@ modId="miningutils"
 version="${file.jarVersion}"
 displayName="Mining Utils"
 updateJSONURL="https://raw.githubusercontent.com/TheMillman/MiningUtils/1.19.x/update.json"
-
-#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
-
+displayURL="https://www.curseforge.com/minecraft/mc-mods/miningutils"
 logoFile="logo.png"
 authors="The_Millman"
 description='''
