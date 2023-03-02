@@ -13,9 +13,9 @@ import com.the_millman.themillmanlib.core.util.LibTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -90,12 +90,11 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 			init();
 		}
 
-		energyStorage.addEnergy(100);
 		if (!level.isClientSide()) {
 			if (!getStop()) {
 				if (hasPowerToWork(energyStorage, MiningConfig.VERTICAL_MINER_USEPERTICK.get())) {
 					tick++;
-					if (tick == 2) {
+					if (tick == MiningConfig.VERTICAL_MINER_TICK.get()) {
 						tick = 0;
 						redstoneUpgrade();
 						if (canWork()) {
@@ -287,7 +286,7 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 	}
 
 	private boolean getDestBlock(BlockState state) {
-		if (!state.is(Blocks.BEDROCK)) {
+		if (!state.is(BlockTags.WITHER_IMMUNE)) {
 			return true;
 		}
 		return false;

@@ -71,8 +71,6 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 				this.tick = 0;
 			}
 		}
-		
-//		energyStorage.addEnergy(100);
 	}
 	
 	@Override
@@ -135,7 +133,6 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 			@Override
 			protected void onContentsChanged(int slot) {
 				setChanged();
-//				ModMessages.sendToClients(new ItemStackSyncS2CPacket2(this, worldPosition));
 			}
 			
 			@Override
@@ -158,7 +155,6 @@ public class WaveTableBE extends ItemEnergyFluidBlockEntity {
 			@Override
 			protected void onContentsChanged(int slot) {
 				setChanged();
-//				ModMessages.sendToClients(new ItemStackSyncS2CPacket2(this, worldPosition));
 			}
 			
 			@Override

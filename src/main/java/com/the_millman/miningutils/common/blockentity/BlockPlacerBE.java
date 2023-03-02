@@ -89,7 +89,7 @@ public class BlockPlacerBE extends ItemEnergyBlockEntity {
 	}
 	
 	private boolean placeBlock(BlockPos pos) {
-		int slot = getSlot(itemStorage, 9);
+		int slot = getSlot(itemStorage, 8);
 
 		BlockState state = level.getBlockState(pos);
 		ItemStack stack = getStackInSlot(itemStorage, slot);
@@ -127,7 +127,7 @@ public class BlockPlacerBE extends ItemEnergyBlockEntity {
 			
 			@Override
 			public boolean isItemValid(int slot, ItemStack stack) {
-				return true;
+				return stack.getItem() instanceof BlockItem ? true : false;
 			}
 		};
 	}

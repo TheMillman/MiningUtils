@@ -213,14 +213,9 @@ public class HogPanBE extends ItemFluidBlockEntity {
 	
 	@Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-    	if(cap == ForgeCapabilities.ITEM_HANDLER) {
-//			if (side == null) {
-//            	upgradeItemHandler.cast();
-//                return combinedItemHandler.cast();
-//            } else {
-                return itemStorageHandler.cast();
-//            }
-        }
-    	return super.getCapability(cap, side);
+		if (cap == ForgeCapabilities.ITEM_HANDLER) {
+			return itemStorageHandler.cast();
+		}
+		return super.getCapability(cap, side);
     }
 }
