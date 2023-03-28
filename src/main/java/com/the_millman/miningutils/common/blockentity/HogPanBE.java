@@ -29,6 +29,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 public class HogPanBE extends ItemFluidBlockEntity {
 
@@ -52,13 +53,13 @@ public class HogPanBE extends ItemFluidBlockEntity {
 		if (!initialized)
 			init();
 
-		if (getStackInSlot(itemStorage, 1).getCount() < 16) {
-			transferItemFluidToFluidTank(itemStorage, fluidStorage, 0, 1);
+		if (getStackInSlot(upgradeItemStorage, 1).getCount() < 16) {
+			transferItemFluidToFluidTank(upgradeItemStorage, fluidStorage, 0, 1);
 		}
 		
-		if(getStackInSlot(itemStorage, 2).is(ModItemTags.SIFTABLE_BLOCKS)) {
+		if(getStackInSlot(itemStorage, 0).is(ModItemTags.SIFTABLE_BLOCKS)) {
 			if(fluidStorage.getFluidAmount() >= MiningConfig.HOG_PAN_WATER_CONSUME.get()) {
-				if(getStackInSlot(itemStorage, 3).getItem() instanceof HogPanMatItem) {
+				if(getStackInSlot(itemStorage, 1).getItem() instanceof HogPanMatItem) {
 					this.work = checkWork();
 					if(this.work) {
 						tick++;
@@ -71,7 +72,7 @@ public class HogPanBE extends ItemFluidBlockEntity {
 										this.panContent = panItem.getTag().getInt("miningutils_content");
 										if(panContent + checkInput() <= 100) {
 											addContentToPanItem(panContent + checkInput());
-											consumeStack(itemStorage, 2, 1);
+											consumeStack(itemStorage, 0, 1);
 											drain(fluidStorage, MiningConfig.HOG_PAN_WATER_CONSUME.get(), FluidAction.EXECUTE);
 											this.work = true;
 										} else if(panContent + checkInput() >= 100) {
@@ -87,13 +88,13 @@ public class HogPanBE extends ItemFluidBlockEntity {
 					} 
 				}
 			} 
-		} if (getStackInSlot(itemStorage, 2).isEmpty() || getStackInSlot(itemStorage, 3).isEmpty()) {
+		} if (getStackInSlot(itemStorage, 0).isEmpty() || getStackInSlot(itemStorage, 1).isEmpty()) {
 			this.tick = 0;
 		}
 	}
 	
 	private void addContentToPanItem(int content) {
-		ItemStack panItem = getStackInSlot(itemStorage, 3);
+		ItemStack panItem = getStackInSlot(itemStorage, 1);
 		if(panItem.getItem() instanceof HogPanMatItem) {
 			CompoundTag contentTag = new CompoundTag();
 			contentTag.putInt("miningutils_content", content);
@@ -102,7 +103,7 @@ public class HogPanBE extends ItemFluidBlockEntity {
 	}
 	
 	private ItemStack getPanItemStack() {
-		ItemStack panItem = getStackInSlot(itemStorage, 3);
+		ItemStack panItem = getStackInSlot(itemStorage, 1);
 		if(panItem.getItem() instanceof HogPanMatItem) {
 			return panItem;
 		}
@@ -110,7 +111,7 @@ public class HogPanBE extends ItemFluidBlockEntity {
 	}
 	
 	private int checkInput() {
-		if(getStackInSlot(itemStorage, 2).is(Items.MUD)) {
+		if(getStackInSlot(itemStorage, 0).is(Items.MUD)) {
 			return new Random().nextInt(3, 7);
 		}
 		return new Random().nextInt(1, 4);
@@ -159,7 +160,29 @@ public class HogPanBE extends ItemFluidBlockEntity {
 	
 	@Override
 	public ItemStackHandler itemStorage() {
-		return new ItemStackHandler(4) {
+		return new ItemStackHandler(2) {
+			@Override
+			protected void onContentsChanged(int slot) {
+				setChanged();
+			}
+			
+			@Override
+			public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+				switch(slot) {
+					case 0:
+						return stack.is(ModItemTags.SIFTABLE_BLOCKS) ? true : false;
+					case 1:
+						return stack.getItem() instanceof HogPanMatItem ? true : false;
+					default : 
+						return false;
+				}
+			}
+		};
+	}
+	
+	@Override
+	protected ItemStackHandler upgradeItemStorage() {
+		return new ItemStackHandler(2) {
 			@Override
 			protected void onContentsChanged(int slot) {
 				setChanged();
@@ -172,11 +195,7 @@ public class HogPanBE extends ItemFluidBlockEntity {
 						return stack.is(Items.WATER_BUCKET) ? true : false;
 					case 1:
 						return stack.is(Items.BUCKET) ? true : false;
-					case 2:
-						return stack.is(ModItemTags.SIFTABLE_BLOCKS) ? true : false;
-					case 3:
-						return stack.getItem() instanceof HogPanMatItem ? true : false;
-					default : 
+					default:
 						return false;
 				}
 			}
@@ -184,13 +203,10 @@ public class HogPanBE extends ItemFluidBlockEntity {
 	}
 	
 	@Override
-	protected ItemStackHandler upgradeItemStorage() {
-		return null;
-	}
-	
-	@Override
 	protected IItemHandler createCombinedItemHandler() {
-		return null;
+		return new CombinedInvWrapper(upgradeItemStorage, itemStorage) {
+			
+		};
 	}
 
 	@Override
@@ -214,7 +230,12 @@ public class HogPanBE extends ItemFluidBlockEntity {
 	@Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 		if (cap == ForgeCapabilities.ITEM_HANDLER) {
-			return itemStorageHandler.cast();
+			if(side == null) {
+				upgradeItemHandler.cast();
+				return combinedItemHandler.cast();
+			} else if(side == Direction.UP || side == Direction.DOWN) {
+				return upgradeItemHandler.cast();
+			}
 		}
 		return super.getCapability(cap, side);
     }
