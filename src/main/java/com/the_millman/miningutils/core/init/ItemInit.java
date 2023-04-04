@@ -2,6 +2,7 @@ package com.the_millman.miningutils.core.init;
 
 import com.the_millman.miningutils.MiningUtils;
 import com.the_millman.miningutils.common.items.HogPanMatItem;
+import com.the_millman.themillmanlib.common.items.UpgradeItem;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -22,5 +23,6 @@ public class ItemInit {
 	
 	public static final RegistryObject<Item> HOG_PAN_MAT = ITEMS.register("hog_pan_mat", () -> new HogPanMatItem(new Item.Properties().stacksTo(1)));
 	public static final RegistryObject<Item> DIRTY_WATER_BUCKET = ITEMS.register("dirty_water_bucket", () -> new Item(new Item.Properties().stacksTo(1)));
+	public static final RegistryObject<Item> BLACK_LIST_UPGRADE = ITEMS.register("black_list_upgrade", () -> new UpgradeItem(new Item.Properties().stacksTo(1), "tooltip.miningutils.upgrade.black_list"));
 	
 }

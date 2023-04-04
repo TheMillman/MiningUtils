@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.Nullable;
 
 import com.the_millman.miningutils.MiningUtils;
+import com.the_millman.miningutils.core.init.ItemInit;
 import com.the_millman.miningutils.core.util.MiningUtilsTags;
 
 import net.minecraft.core.HolderLookup;
@@ -23,6 +24,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
 	@Override
 	protected void addTags(Provider pProvider) {
-		tag(MiningUtilsTags.ModItemTags.SIFTABLE_BLOCKS).add(Items.DIRT).add(Items.MUD);
+		tag(MiningUtilsTags.ModItemTags.SIFTABLE_BLOCKS).add(Items.DIRT, Items.MUD);
+		tag(MiningUtilsTags.ModItemTags.BLACK_LIST_UPGRADE).add(ItemInit.BLACK_LIST_UPGRADE.get());
 	}
 }

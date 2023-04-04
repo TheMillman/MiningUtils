@@ -7,10 +7,12 @@
 	"block.miningutils.wave_table": "Wave Table",
 	"item.miningutils.hog_pan_mat": "Hog Pan Mat",
 	"item.miningutils.dirty_water_bucket": "Dirty Water Bucket",
+	"item.miningutils.black_list_upgrade": "Black List Upgrade",
 	"screen.miningutils.vertical_miner": "Vertical Miner",
 	"screen.miningutils.block_breaker": "Block Breaker",
 	"screen.miningutils.block_placer": "Block Placer",
 	"screen.miningutils.hog_pan": "Hog Pan",
 	"screen.miningutils.wave_table": "Wave Table",
+	"tooltip.miningutils.upgrade.black_list": "\u00A77The Vertical Miner will start ignoring blocks that are inserted into the 5 slots to the left of the \u00A74Vertical Miner.",
 	"itemGroup.mining_utils_tab": "Mining Utils"
 }

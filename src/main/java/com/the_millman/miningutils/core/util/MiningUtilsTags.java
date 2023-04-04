@@ -19,6 +19,7 @@ public class MiningUtilsTags {
 	
 	public class ModItemTags extends LibTags.Items{
 		public static final TagKey<Item> SIFTABLE_BLOCKS = mod("siftable_blocks");
+		public static final TagKey<Item> BLACK_LIST_UPGRADE = mod("black_list_upgrade");
 		
 		private static TagKey<Item> mod(String name) {
 			return modLoc(MiningUtils.MODID, name);

@@ -16,6 +16,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 	protected void registerModels() {
 		singleTexture("hog_pan_mat", mcLoc("item/generated"), "layer0", modLoc("item/hog_pan_mat"));
 		singleTexture("dirty_water_bucket", mcLoc("item/generated"), "layer0", modLoc("item/dirty_water_bucket"));
+		singleTexture("black_list_upgrade", mcLoc("item/generated"), "layer0", modLoc("item/black_list_upgrade"));
 	}
 
 }

@@ -64,12 +64,12 @@ public class ClientEvents {
 							// Items
 							output.accept(ItemInit.HOG_PAN_MAT.get());
 							output.accept(ItemInit.DIRTY_WATER_BUCKET.get());
+							output.accept(ItemInit.BLACK_LIST_UPGRADE.get());
 							output.accept(LibItemInit.PLASTIC.get());
 							output.accept(LibItemInit.IRON_UPGRADE.get());
 							output.accept(LibItemInit.GOLD_UPGRADE.get());
 							output.accept(LibItemInit.DIAMOND_UPGRADE.get());
 							output.accept(LibItemInit.REDSTONE_UPGRADE.get());
-
 						});
 			});
 		}

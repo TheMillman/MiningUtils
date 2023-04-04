@@ -82,5 +82,14 @@ public class ModRecipeProvider extends RecipeProvider {
         .define('p', LibItemInit.PLASTIC.get())
         .unlockedBy("plastic", InventoryChangeTrigger.TriggerInstance.hasItems(LibItemInit.PLASTIC.get()))
         .save(pWriter);
+		
+		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ItemInit.BLACK_LIST_UPGRADE.get())
+        .pattern(" i ")
+        .pattern("ipi")
+        .pattern(" i ")
+        .define('i', Tags.Items.INGOTS_IRON)
+        .define('p', Items.PAPER)
+        .unlockedBy("iron", InventoryChangeTrigger.TriggerInstance.hasItems(Items.IRON_INGOT))
+        .save(pWriter);
 	}
 }

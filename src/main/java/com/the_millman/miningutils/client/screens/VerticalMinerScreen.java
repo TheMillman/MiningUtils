@@ -18,7 +18,7 @@ public class VerticalMinerScreen extends ItemEnergyScreen<VerticalMinerContainer
 	public VerticalMinerScreen(VerticalMinerContainer pMenu, Inventory pPlayerInventory, Component pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
 	}
-
+	
 	@Override
 	public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
 		this.renderBackground(pPoseStack);
@@ -32,7 +32,7 @@ public class VerticalMinerScreen extends ItemEnergyScreen<VerticalMinerContainer
 		RenderSystem.setShaderTexture(0, GUI);
         int relX = (this.width - this.imageWidth) / 2;
         int relY = (this.height - this.imageHeight) / 2;
-        this.blit(pPoseStack, relX, relY, 0, 0, this.imageWidth, this.imageHeight);
+        this.blit(pPoseStack, relX, relY, 0, 0, 196, this.imageHeight);
         this.renderEnergyBar(pPoseStack, OVERLAY);
 	}
 

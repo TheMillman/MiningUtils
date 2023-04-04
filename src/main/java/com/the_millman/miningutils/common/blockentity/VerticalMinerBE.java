@@ -1,10 +1,13 @@
 package com.the_millman.miningutils.common.blockentity;
 
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
 import com.the_millman.miningutils.common.blocks.BlockBreakerBlock;
 import com.the_millman.miningutils.common.blocks.VerticalMinerBlock;
 import com.the_millman.miningutils.core.init.BlockEntityInit;
+import com.the_millman.miningutils.core.init.ItemInit;
 import com.the_millman.miningutils.core.util.MiningConfig;
 import com.the_millman.themillmanlib.common.blockentity.ItemEnergyBlockEntity;
 import com.the_millman.themillmanlib.core.energy.ModEnergyStorage;
@@ -12,8 +15,11 @@ import com.the_millman.themillmanlib.core.util.LibTags;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,13 +32,18 @@ import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 public class VerticalMinerBE extends ItemEnergyBlockEntity {
 
+	protected final ItemStackHandler filterStorage = filterStorage();
+	protected final LazyOptional<IItemHandler> filterStorageHandler = LazyOptional.of(() -> filterStorage);
+	
 	private int x, y, z, tick;
 	int pX, pY, pZ;
 	boolean initialized = false;
 	int range;
 	boolean needRedstone = false;
+	boolean blackList = false;
 	boolean pickupDrops = true;
 	boolean stop;
+//	List<Block> list = new ArrayList<>();
 	
 	public VerticalMinerBE(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(BlockEntityInit.VERTICAL_MINER.get(), pWorldPosition, pBlockState);
@@ -81,40 +92,43 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 		this.range = 3;
 		
 		this.needRedstone = false;
+		this.blackList = false;
 		this.pickupDrops = true;
 	}
 	
 	@Override
 	public void tickServer() {
-		if (!initialized) {
+		if (!initialized)
 			init();
-		}
 
-		if (!level.isClientSide()) {
-			if (!getStop()) {
-				if (hasPowerToWork(energyStorage, MiningConfig.VERTICAL_MINER_USEPERTICK.get())) {
-					tick++;
-					if (tick == MiningConfig.VERTICAL_MINER_TICK.get()) {
-						tick = 0;
-						redstoneUpgrade();
+		tick++;
+		if (tick == MiningConfig.VERTICAL_MINER_TICK.get()) {
+			tick = 0;
+			blackListUpgrade();
+			redstoneUpgrade();
+			if (!level.isClientSide()) {
+				if (!getStop()) {
+					if (hasPowerToWork(energyStorage, MiningConfig.VERTICAL_MINER_USEPERTICK.get())) {
 						if (canWork()) {
-							rangeUpgrade();
-							BlockPos posToBreak = new BlockPos(this.x + this.pX, this.y + this.pY, this.z + this.pZ);
-							destroyBlock(posToBreak, false);
-							setChanged();
+							if (canWork()) {
+								rangeUpgrade();
+								BlockPos posToBreak = new BlockPos(this.x + this.pX, this.y + this.pY, this.z + this.pZ);
+								destroyBlock(posToBreak, false);
+								setChanged();
 
-							pX++;
-							if (pX >= this.range) {
-								this.pX = 0;
-								this.pZ++;
-								if (this.pZ >= this.range) {
+								pX++;
+								if (pX >= this.range) {
 									this.pX = 0;
-									this.pZ = 0;
-									this.pY--;
-									int limitY = (this.y + this.pY);
-									if (limitY <= (level.dimensionType().minY())) {
-										setStop(true);
-										this.pY = 0;
+									this.pZ++;
+									if (this.pZ >= this.range) {
+										this.pX = 0;
+										this.pZ = 0;
+										this.pY--;
+										int limitY = (this.y + this.pY);
+										if (limitY <= (level.dimensionType().minY())) {
+											setStop(true);
+											this.pY = 0;
+										}
 									}
 								}
 							}
@@ -240,6 +254,32 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 			}
 		}
 	}
+	/**
+	 * TODO Aggiungere tag.
+	 */
+	private void blackListUpgrade() {
+		int slot = getUpgradeSlot(upgradeItemStorage, ItemInit.BLACK_LIST_UPGRADE.get().getDefaultInstance(), 0, 2);
+		boolean isUpgrade = getStackInSlot(upgradeItemStorage, slot).is(ItemInit.BLACK_LIST_UPGRADE.get());
+		if (isUpgrade) {
+			this.blackList = true;
+		} else
+			this.blackList = false;
+	}
+	
+	private List<Block> getTestList(BlockState state) {
+		NonNullList<Block> nonList = NonNullList.create();
+		if(getBlackListMode()) {
+			for (int slot = 0; slot < filterStorage.getSlots(); slot++) {
+				Item item = getStackInSlot(filterStorage, slot).getItem();
+				if (item instanceof BlockItem blockItem) {
+					BlockState itemState = blockItem.getBlock().defaultBlockState();
+					nonList.add(itemState.getBlock());
+				}
+				continue;
+			}
+		}
+		return nonList;
+	}
 
 	private boolean canWork() {
 		if(this.needRedstone) {
@@ -260,27 +300,34 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 	private void setStop(boolean hasStopped) {
 		this.stop = hasStopped;
 	}
+	
+	public boolean getBlackListMode() {
+		return this.blackList;
+	}
 
 	private boolean destroyBlock(BlockPos pos, boolean dropBlock) {
 		BlockState state = level.getBlockState(pos);
-		
+
 		if (state.isAir()) {
 			return false;
 		} else if (getDestBlock(state)) {
-			if (!level.isClientSide) {
-				if (this.pickupDrops) {
-					collectDrops(level, itemStorage, pos, 0, 18);
-					level.destroyBlock(pos, dropBlock);
-					consumeEnergy(energyStorage, MiningConfig.VERTICAL_MINER_USEPERTICK.get());
-					return true;
-				} else if(!this.pickupDrops) {
-					level.destroyBlock(pos, true);
-					consumeEnergy(energyStorage, MiningConfig.VERTICAL_MINER_USEPERTICK.get());
-					return true;
+			List<Block> list = getTestList(state);
+			if (!list.contains(state.getBlock())) {
+				if (!level.isClientSide) {
+					if (this.pickupDrops) {
+						collectDrops(level, itemStorage, pos, 0, 18);
+						level.destroyBlock(pos, dropBlock);
+						consumeEnergy(energyStorage, MiningConfig.VERTICAL_MINER_USEPERTICK.get());
+						return true;
+					} else if (!this.pickupDrops) {
+						level.destroyBlock(pos, true);
+						consumeEnergy(energyStorage, MiningConfig.VERTICAL_MINER_USEPERTICK.get());
+						return true;
+					}
+					return false;
 				}
 				return false;
 			}
-			return false;
 		}
 		return false;
 	}
@@ -327,9 +374,30 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 		};
 	}
 	
+	protected ItemStackHandler filterStorage() {
+		return new ItemStackHandler(5) {
+			@Override
+			protected void onContentsChanged(int slot) {
+				setChanged();
+			}
+			
+			@Override
+			public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+				return stack.getItem() instanceof BlockItem ? true : false;
+			}
+			
+			@Override
+			protected int getStackLimit(int slot, @NotNull ItemStack stack) {
+				return 1;
+			}
+			
+			
+		};
+	}
+	
 	@Override
 	protected IItemHandler createCombinedItemHandler() {
-		return new CombinedInvWrapper(itemStorage, upgradeItemStorage) {
+		return new CombinedInvWrapper(itemStorage, upgradeItemStorage, filterStorage) {
 			
 		};
 	}
@@ -349,12 +417,19 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 	}
 	
 	@Override
+	public void setRemoved() {
+		super.setRemoved();
+		filterStorageHandler.invalidate();
+	}
+	
+	@Override
 	public void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
 		tag.putBoolean("mining_stop", this.stop);
 		tag.putInt("mining_pX", this.pX);
 		tag.putInt("mining_pY", this.pY);
 		tag.putInt("mining_pZ", this.pZ);
+		tag.put("FilterInventory", filterStorage.serializeNBT());
 	}
 	
 	@Override
@@ -375,6 +450,9 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 			this.pZ = pTag.getInt("mining_pZ");
 		}
 		
+		if(pTag.contains("FilterInventory")) {
+			filterStorage.deserializeNBT(pTag.getCompound("FilterInventory"));
+		}
 		super.load(pTag);
 	}
 	
@@ -382,6 +460,7 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
     	if(cap == ForgeCapabilities.ITEM_HANDLER) {
 			if (side == null) {
+				filterStorageHandler.cast();
             	upgradeItemHandler.cast();
                 return combinedItemHandler.cast();
             } else {

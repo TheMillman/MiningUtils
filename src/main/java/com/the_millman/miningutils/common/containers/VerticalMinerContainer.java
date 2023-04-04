@@ -1,5 +1,6 @@
 package com.the_millman.miningutils.common.containers;
 
+import com.the_millman.miningutils.common.blockentity.VerticalMinerBE;
 import com.the_millman.miningutils.core.init.BlockInit;
 import com.the_millman.miningutils.core.init.ContainerInit;
 import com.the_millman.themillmanlib.common.containers.ItemEnergyContainer;
@@ -18,13 +19,14 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 public class VerticalMinerContainer extends ItemEnergyContainer 
 {
-	private BlockEntity blockEntity;
+	private VerticalMinerBE blockEntity;
     private Player playerEntity;
 	private IItemHandler playerInventory;
 	
 	public VerticalMinerContainer(int windowId, Level world, BlockPos pos, Inventory playerInventory, Player player) {
 		super(ContainerInit.VERTICAL_MINER_CONTAINER.get(), windowId, world, pos, playerInventory, player);
-		blockEntity = world.getBlockEntity(pos);
+		BlockEntity entity = world.getBlockEntity(pos);
+		this.blockEntity = (VerticalMinerBE) entity;
         this.playerEntity = player;
         this.playerInventory = new InvWrapper(playerInventory);
         
@@ -32,6 +34,7 @@ public class VerticalMinerContainer extends ItemEnergyContainer
 			blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
 				layoutInventorySlots(h, 26, 18, 3, 6);
 				layoutUpgradeSlots(h, 18, 147, 18, 3);
+				layoutUpgradeSlots(h, 21, 175, 10, 5);
 			});
 		}
 		
@@ -54,6 +57,8 @@ public class VerticalMinerContainer extends ItemEnergyContainer
 				if (!this.moveItemStackTo(itemstack1, 21, 57, true)) {
 					return ItemStack.EMPTY;
 				}
+			} else if(pIndex > 57 && pIndex < 62) {
+				return ItemStack.EMPTY;
 			} else if (!this.moveItemStackTo(itemstack1, 0, 21, false)) {
 				return ItemStack.EMPTY;
 			}
