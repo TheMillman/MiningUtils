@@ -58,7 +58,7 @@ public class HogPanBE extends ItemFluidBlockEntity {
 		}
 		
 		if(getStackInSlot(itemStorage, 0).is(ModItemTags.SIFTABLE_BLOCKS)) {
-			if(fluidStorage.getFluidAmount() >= MiningConfig.HOG_PAN_WATER_CONSUME.get()) {
+			if(getFluidAmount(fluidStorage) >= MiningConfig.HOG_PAN_WATER_CONSUME.get()) {
 				if(getStackInSlot(itemStorage, 1).getItem() instanceof HogPanMatItem) {
 					this.work = checkWork();
 					if(this.work) {

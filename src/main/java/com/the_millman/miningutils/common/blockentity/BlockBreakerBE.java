@@ -2,7 +2,6 @@ package com.the_millman.miningutils.common.blockentity;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.the_millman.miningutils.MiningUtils;
 import com.the_millman.miningutils.common.blocks.BlockBreakerBlock;
 import com.the_millman.miningutils.core.init.BlockEntityInit;
 import com.the_millman.miningutils.core.util.MiningConfig;
@@ -60,8 +59,6 @@ public class BlockBreakerBE extends ItemEnergyBlockEntity {
 		if (!initialized) {
 			init();
 		}
-
-		energyDebug(MiningUtils.DEBUG);
 		
 		if (hasRedstoneSignal()) {
 			if (hasPowerToWork(energyStorage, MiningConfig.BLOCK_BREAKER_USEPERTICK.get())) {

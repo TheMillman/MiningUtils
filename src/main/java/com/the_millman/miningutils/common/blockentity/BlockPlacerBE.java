@@ -2,7 +2,6 @@ package com.the_millman.miningutils.common.blockentity;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.the_millman.miningutils.MiningUtils;
 import com.the_millman.miningutils.common.blocks.BlockBreakerBlock;
 import com.the_millman.miningutils.common.blocks.BlockPlacerBlock;
 import com.the_millman.miningutils.core.init.BlockEntityInit;
@@ -61,8 +60,6 @@ public class BlockPlacerBE extends ItemEnergyBlockEntity {
 	@Override
 	public void tickServer() {
 		if(!initialized) init();
-		
-		energyDebug(MiningUtils.DEBUG);
 		
 		if(hasRedstoneSignal()) {
 			if(hasPowerToWork(energyStorage, MiningConfig.BLOCK_PLACER_USEPERTICK.get())) {
