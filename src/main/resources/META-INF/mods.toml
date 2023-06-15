@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[44,)"
+loaderVersion="[45,)"
 license="MIT License"
 issueTrackerURL="https://github.com/TheMillman/MiningUtils/issues"
 
@@ -18,20 +18,20 @@ This mod adds different blocks and items for a easy way to farming resources in 
 [[dependencies.miningutils]]
     modId="forge"
     mandatory=true
-    versionRange="[44,)"
+    versionRange="[45,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.miningutils]] 
     modId="themillmanlib" 
     mandatory=true 
-    versionRange="[1.19.3-0.1.13,1.19.3-0.1.15)"
+    versionRange="[1.19.4-0.2.1,1.19.4-0.2.2)"
     ordering="NONE"
     side="BOTH"   
     
 [[dependencies.miningutils]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.3,1.20)"
+    versionRange="[1.19.4,1.20)"
     ordering="NONE"
     side="BOTH"
