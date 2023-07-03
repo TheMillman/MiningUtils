@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "miningutils:block_breaker"
-  }
+  },
+  "show_notification": true
 }

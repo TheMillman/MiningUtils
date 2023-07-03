@@ -30,5 +30,6 @@
     "recipes": [
       "miningutils:block_breaker"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

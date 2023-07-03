@@ -1,37 +1,36 @@
 modLoader="javafml"
-loaderVersion="[45,)"
-license="MIT License"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
 issueTrackerURL="https://github.com/TheMillman/MiningUtils/issues"
 
-[[mods]]
-modId="miningutils"
-version="${file.jarVersion}"
-displayName="Mining Utils"
+[[mods]] 
+modId="${mod_id}" 
+version="${mod_version}" 
+displayName="${mod_name}" 
 updateJSONURL="https://raw.githubusercontent.com/TheMillman/MiningUtils/1.19.x/update.json"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/miningutils"
-logoFile="logo.png"
-authors="The_Millman"
-description='''
-This mod adds different blocks and items for a easy way to farming resources in Minecraft.
-'''
+logoFile="logo.png" 
+authors="${mod_authors}" 
+displayTest="MATCH_VERSION"
+description='''${mod_description}'''
 
-[[dependencies.miningutils]]
-    modId="forge"
-    mandatory=true
-    versionRange="[45,)"
+[[dependencies.${mod_id}]] 
+    modId="forge" 
+    mandatory=true 
+    versionRange="${forge_version_range}" 
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.miningutils]] 
+[[dependencies.${mod_id}]] 
     modId="themillmanlib" 
     mandatory=true 
-    versionRange="[1.19.4-0.2.1,1.19.4-0.2.2)"
+    versionRange="${lib_version_range}"
     ordering="NONE"
-    side="BOTH"   
-    
-[[dependencies.miningutils]]
+    side="BOTH"    
+
+[[dependencies.${mod_id}]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.4,1.20)"
+    versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"

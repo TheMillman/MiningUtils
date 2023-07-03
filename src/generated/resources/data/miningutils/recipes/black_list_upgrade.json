@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "miningutils:black_list_upgrade"
-  }
+  },
+  "show_notification": true
 }

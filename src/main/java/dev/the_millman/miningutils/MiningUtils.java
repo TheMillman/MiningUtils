@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import dev.the_millman.miningutils.core.init.BlockEntityInit;
 import dev.the_millman.miningutils.core.init.BlockInit;
 import dev.the_millman.miningutils.core.init.ContainerInit;
+import dev.the_millman.miningutils.core.init.CreativeTabInit;
 import dev.the_millman.miningutils.core.init.ItemInit;
 import dev.the_millman.miningutils.core.networking.ModMessages;
 import dev.the_millman.miningutils.core.util.MiningConfig;
@@ -27,6 +28,7 @@ public class MiningUtils
         
     	ItemInit.ITEMS.register(bus);
     	BlockInit.BLOCKS.register(bus);
+    	CreativeTabInit.CREATIVE_TABS.register(bus);
     	BlockEntityInit.BLOCK_ENTITIES.register(bus);
     	ContainerInit.CONTAINERS.register(bus);
     	

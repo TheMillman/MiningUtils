@@ -30,5 +30,6 @@
     "recipes": [
       "miningutils:black_list_upgrade"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

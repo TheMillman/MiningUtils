@@ -30,5 +30,6 @@
     "recipes": [
       "miningutils:bucket_block"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

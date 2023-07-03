@@ -52,13 +52,13 @@ public class VerticalMinerContainer extends ItemEnergyContainer
 		if (slot != null && slot.hasItem()) {
 			ItemStack itemstack1 = slot.getItem();
 			itemstack = itemstack1.copy();
-			if (pIndex < 21) {
-				if (!this.moveItemStackTo(itemstack1, 21, 57, true)) {
+			if (pIndex < 26) {
+				if (!this.moveItemStackTo(itemstack1, 26, 62, true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if(pIndex > 57 && pIndex < 62) {
+			} else if(pIndex > 62 && pIndex < 62) {
 				return ItemStack.EMPTY;
-			} else if (!this.moveItemStackTo(itemstack1, 0, 21, false)) {
+			} else if (!this.moveItemStackTo(itemstack1, 0, 26, false)) {
 				return ItemStack.EMPTY;
 			}
 

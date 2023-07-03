@@ -30,5 +30,6 @@
     "recipes": [
       "miningutils:vertical_miner"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

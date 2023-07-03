@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-import dev.the_millman.miningutils.MiningUtils;
 import dev.the_millman.miningutils.common.blocks.BlockBreakerBlock;
 import dev.the_millman.miningutils.common.blocks.VerticalMinerBlock;
 import dev.the_millman.miningutils.core.init.BlockEntityInit;
@@ -45,7 +44,6 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 	boolean blackList = false;
 	boolean pickupDrops = true;
 	boolean stop;
-//	List<Block> list = new ArrayList<>();
 	
 	public VerticalMinerBE(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(BlockEntityInit.VERTICAL_MINER.get(), pWorldPosition, pBlockState);
@@ -102,8 +100,7 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 	public void tickServer() {
 		if (!initialized)
 			init();
-
-		energyDebug(MiningUtils.DEBUG);
+		
 		tick++;
 		if (tick == MiningConfig.VERTICAL_MINER_TICK.get()) {
 			tick = 0;
@@ -182,7 +179,6 @@ public class VerticalMinerBE extends ItemEnergyBlockEntity {
 		Direction facing = getBlockState().getValue(VerticalMinerBlock.FACING);
 		int slot = getUpgradeSlot(upgradeItemStorage, LibTags.Items.RANGE_UPGRADE, 0, 2);
 		ItemStack upgradeSlot = getStackInSlot(upgradeItemStorage, slot);
-//		System.out.println(facing);
 		if(facing == Direction.NORTH) {
 			if (upgradeSlot.is(LibTags.Items.IRON_RANGE_UPGRADE)) {
 				this.x = getBlockPos().getX() -2;

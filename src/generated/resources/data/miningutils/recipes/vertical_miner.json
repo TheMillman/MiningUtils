@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "miningutils:vertical_miner"
-  }
+  },
+  "show_notification": true
 }

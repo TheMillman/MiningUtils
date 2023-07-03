@@ -11,5 +11,6 @@
   ],
   "result": {
     "item": "miningutils:hog_pan_mat"
-  }
+  },
+  "show_notification": true
 }

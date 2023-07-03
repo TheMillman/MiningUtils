@@ -30,5 +30,6 @@
     "recipes": [
       "miningutils:hog_pan_mat"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
